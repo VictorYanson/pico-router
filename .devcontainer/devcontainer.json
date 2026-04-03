@@ -1,19 +1,5 @@
 {
     "name": "Pico Router Dev",
-    "build": {
-        "dockerfile": "Dockerfile",
-        "context": "..",
-        "args": { "VARIANT": "ubuntu-22.04" }
-    },
-    "runArgs": ["--platform=linux/amd64"],
-    "customizations": {
-        "vscode": {
-            "extensions": [
-                "ms-vscode.cpptools",
-                "ms-vscode.cmake-tools",
-                "marus25.cortex-debug"
-            ]
-        }
-    },
-    "remoteUser": "vscode"
+    "image": "pico-router-dev:latest",
+    "runArgs": ["--platform=linux/amd64"]
 }
