@@ -8,8 +8,9 @@ struct Edge {
 };
 
 struct Node {
-    int32_t x;
-    int32_t y;
+    int32_t x, y;
+    // node gScore, heuristic, fScore
+    // int32_t g, h, f;
     Edge edges[4];
     uint8_t edge_count;
 };
