@@ -4,6 +4,7 @@
 #include <optional>
 #include <stdint.h>
 
+#include "common_types.h"
 #include "graph.h"
 #include "heuristic.h"
 #include "path.h"
@@ -19,13 +20,13 @@ public:
     // todo: add constructor
     static constexpr size_t MAX_NODES = 256;
 
-    std::optional<Path> Calculate(const Graph& graph, node_id start, node_id goal);
+    void Calculate(const Graph& graph, node_id start, node_id goal);
 
 private:
     std::array <int32_t, MAX_NODES> gScore;
     std::array <int32_t, MAX_NODES> fScore;
 
-    PriorityQueue<Node, MAX_NODES> open_list;
+    PriorityQueue<MAX_NODES> open_list;
 
-    Path reconstruct_path(NodeId current);
+    Path reconstruct_path(node_id current);
 };
