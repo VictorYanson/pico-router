@@ -5,10 +5,8 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
 # Add executable
-add_executable(${PROJECT_NAME}
-    src/astar.cc
-    src/demo_traversal.cc
-)
+file(GLOB SOURCES "src/*.cc" "src/*.c")
+add_executable(${PROJECT_NAME} ${SOURCES})
 
 # Include directories
 target_include_directories(${PROJECT_NAME} PRIVATE include)
