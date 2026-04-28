@@ -22,4 +22,11 @@ struct PriorityQueue {
         data[size++] = n;
         std::push_heap(data.begin(), data.begin() + size, CompareFScore());
     }
+
+    Node pop() {
+        std::pop_heap(data.begin(), data.begin() + size, CompareFScore());
+        Node current = open_list.data[--open_list.size];
+
+        return current
+    }
 };
