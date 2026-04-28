@@ -26,4 +26,4 @@ RUN git clone --recursive https://github.com/raspberrypi/pico-sdk.git $PICO_SDK_
 
 ENV PICO_BOARD=pico2
 
-WORKDIR /workspaces/emergency-router
+WORKDIR /workspaces/pico-router

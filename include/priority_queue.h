@@ -1,7 +1,5 @@
 #pragma once
 
-#include <set>
-
 #include "graph.h"
 
 struct CompareFScore {
@@ -13,25 +11,15 @@ struct CompareFScore {
     }
 };
 
+template <size_t Capacity>
 struct PriorityQueue {
-    std::set<Node, CompareFScore> node_set;
+    std::array<Node, Capacity> data;
+    size_t size = 0;
 
-    PriorityQueue(Node start_node) { 
-        node_set.insert(start_node);
+    PriorityQueue() : size(0) {}
+
+    void add(Node n) {
+        data[size++] = n;
+        std::push_heap(data.begin(), data.begin() + size, CompareFScore());
     }
-
-    // helper functions
-    node_id getTopNode() { 
-        if (node_set.empty()) {
-            return -1;
-        }
-        return node_set.begin()->id;
-    }
-
-    void add(Node new_node) {
-        node_set.insert(new_node);
-    }
-
-    void pop(Node); // todo: finish
-    void clear(); // todo: finish
 };

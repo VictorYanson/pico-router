@@ -7,6 +7,8 @@ using graph_id = uint16_t;
 using node_id = uint16_t;
 using edge_id = uint16_t;
 
+static constexpr size_t MAX_NODES = 10000; 
+
 struct Edge {
     edge_id id;
     uint16_t to; 
