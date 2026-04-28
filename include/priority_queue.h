@@ -1,29 +1,37 @@
 #pragma once
 
-#include <algorithm>
-#include <array>
+#include <set>
+
 #include "graph.h"
 
-/** 
-* todo: rewrite this class
-*/
-
-template <size_t MAX_OPEN_NODES>
-
-class PriorityQueue {
-public:
-    PriorityQueue() : current_size(0) {};
-    struct CompareNodes {
-        bool operator()(const Node& n1, const Node& n2) {
-            return n1.f > n2.f;
+struct CompareFScore {
+    bool operator()(const Node& node_1, const Node& node_2) const {
+        if (node_1.f_score != node_2.f_score) {
+            return node_1.f_score < node_2.f_score;
         }
-    };
+        return node_1.id < node_2.id;
+    }
+};
 
-    void add(Node);
-    void pop(Node);
-    void clear();
+struct PriorityQueue {
+    std::set<Node, CompareFScore> node_set;
 
-private:
-    std::array<Node, MAX_OPEN_NODES> queue;
-    size_t current_size;
+    PriorityQueue(Node start_node) { 
+        node_set.insert(start_node);
+    }
+
+    // helper functions
+    node_id getTopNode() { 
+        if (node_set.empty()) {
+            return -1;
+        }
+        return node_set.begin()->id;
+    }
+
+    void add(Node new_node) {
+        node_set.insert(new_node);
+    }
+
+    void pop(Node); // todo: finish
+    void clear(); // todo: finish
 };
