@@ -49,4 +49,9 @@ docker buildx build \
   .
 ```
 
+## Building C++ binary from source
+```bash
+cmake -B build && cmake --build build
+```
+
 Then simply start the dev container in VS code by pressing <kbd>⌘</kbd>/<kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>P</kbd> and selecting the option `Dev Containers: Reopen in Container`
