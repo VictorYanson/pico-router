@@ -2,7 +2,9 @@
 
 #include <stdint.h>
 
-#include "common_types.h"
+using graph_id = uint16_t;
+using node_id = uint16_t;
+using edge_id = uint16_t;
 
 struct Graph {
     graph_id id;
@@ -15,9 +17,8 @@ struct Edge {
 };
 
 struct Node {
-    int16_t node_id;
-    int32_t x, y;
-    int32_t g, h, f;
+    node_id id;
+    double g_score, f_score;
     Edge edges[4];
-    uint8_t edge_count;
+    uint16_t edge_count;
 };
