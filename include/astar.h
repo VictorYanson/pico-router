@@ -14,10 +14,13 @@
 
 class Astar {
 public:
-    Path calculatePath(const Graph& graph, node_id start, node_id goal);
+    Path calculatePath(const Graph& graph, uint32_t start, uint32_t goal);
 
 private:
-    PriorityQueue<MAX_NODES> open_set;
+    std::array<int32_t, MAX_NODES> gScore;
+    std::array<int32_t, MAX_NODES> fScore;
+
+    PriorityQueue<MAX_NODES> open_list;
     std::bitset<MAX_NODES> closed_list;
-    Path reconstructPath(node_id current);
+    Path reconstructPath(uint32_t current);
 };

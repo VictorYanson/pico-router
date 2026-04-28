@@ -1,34 +1,32 @@
 #pragma once
 
 #include <stdint.h>
-#include <vector>
+#include <array>
 
 using graph_id = uint16_t;
-using node_id = uint16_t;
-using edge_id = uint16_t;
+using node_id = uint32_t;
+using first_edge_index = uint32_t;
 
-static constexpr size_t MAX_NODES = 10000; 
+static constexpr size_t MAX_NODES = 10000;
+static constexpr size_t MAX_EDGES = 40000;
 
 struct Edge {
-    edge_id id;
     uint16_t to;
     uint16_t cost;
     uint32_t next_edge_index;
 };
 
 struct Node {
-    node_id id;
-    int32_t g_score, f_score;
     uint16_t edge_count;
-    uint32_t first_edge_index;
+    first_edge_index first_edge_index;
 };
 
 struct Graph {
     graph_id id;
-    //todo: find a better data struct for this
-    std::vector<Node> nodes;
+    std::array<Node, MAX_NODES> nodes;
+    std::array<Edge, MAX_EDGES> edges;
 
-    const Node* getNode(uint16_t id) const {
+    const Node* getNode(node_id id) const {
         if (id < nodes.size()) {
             return &nodes[id];
         }

@@ -2,8 +2,13 @@
 
 #include "graph.h"
 
+struct QueueNode {
+    node_id id;
+    int32_t f_score;
+};
+
 struct CompareFScore {
-    bool operator()(const Node& node_1, const Node& node_2) const {
+    bool operator()(const QueueNode& node_1, const QueueNode& node_2) const {
         if (node_1.f_score != node_2.f_score) {
             return node_1.f_score < node_2.f_score;
         }
@@ -13,20 +18,28 @@ struct CompareFScore {
 
 template <size_t Capacity>
 struct PriorityQueue {
-    std::array<Node, Capacity> data;
+    std::array<QueueNode, Capacity> data;
     size_t size = 0;
 
     PriorityQueue() : size(0) {}
 
-    void add(Node n) {
-        data[size++] = n;
-        std::push_heap(data.begin(), data.begin() + size, CompareFScore());
+    void add(node_id id, int32_t f_score) {
+        if (size < Capacity) {
+            QueueNode n = {id, f_score};
+            data[size] = n;
+            size++;
+            std::push_heap(data.begin(), data.begin() + size, CompareFScore());
+        }
     }
 
-    Node pop() {
+    QueueNode pop() {
         std::pop_heap(data.begin(), data.begin() + size, CompareFScore());
-        Node current = open_list.data[--open_list.size];
+        Node current = data[--size];
 
-        return current
+        return current;
+    }
+
+    void clear() {
+        size = 0;
     }
 };

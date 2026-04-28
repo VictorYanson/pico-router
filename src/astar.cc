@@ -1,14 +1,37 @@
-#include <map>
-
 #include "astar.h"
 
-Path Astar::calculatePath(const Graph& graph, node_id start_node_id, node_id end_node_id)
+Path Astar::calculatePath(const Graph& graph, node_id start_id, node_id goal_id)
 {
-    const Node* start_node = graph.getNode(start_node_id);
-    const Node* end_node = graph.getNode(end_node_id);
-    
-    open_set.add(*start_node);
+    // Initialzation
+    open_list.clear();
+    closed_list.reset();
+    gScore.fill(INT32_MAX);
+    fScore.fill(INT32_MAX);
 
+    gScore[start_id] = 0;
+
+    uint32_t placeholder_heuristic = 100;
+    fScore[start_id] = placeholder_heuristic;
+
+    open_list.add(start_id, fScore[start_id]);
+
+    // Expansion loop
+    while (open_list.size > 0) {
+        QueueNode current = open_list.pop();
+        
+        if (current.id == goal_id) {
+            return reconstructPath(current.id);
+        }
+
+
+    }
+
+    Path placeholder;
+    return placeholder;
+}
+
+Path Astar::reconstructPath(node_id current)
+{
     Path placeholder;
     return placeholder;
 }
