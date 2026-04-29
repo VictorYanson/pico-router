@@ -34,7 +34,7 @@ struct PriorityQueue {
 
     QueueNode pop() {
         std::pop_heap(data.begin(), data.begin() + size, CompareFScore());
-        Node current = data[--size];
+        QueueNode current = data[--size];
 
         return current;
     }

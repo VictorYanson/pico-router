@@ -11,20 +11,19 @@ static constexpr size_t MAX_NODES = 10000;
 static constexpr size_t MAX_EDGES = 40000;
 
 struct Edge {
-    uint16_t to;
+    uint16_t target;
     uint16_t cost;
     uint32_t next_edge_index;
 };
 
 struct Node {
-    uint16_t edge_count;
     first_edge_index first_edge_index;
 };
 
 struct Graph {
     graph_id id;
     std::array<Node, MAX_NODES> nodes;
-    std::array<Edge, MAX_EDGES> edges;
+    std::array<Edge, MAX_EDGES> edges; // 0 == terminator sentinel value
 
     const Node* getNode(node_id id) const {
         if (id < nodes.size()) {

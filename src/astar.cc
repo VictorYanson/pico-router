@@ -23,11 +23,39 @@ Path Astar::calculatePath(const Graph& graph, node_id start_id, node_id goal_id)
             return reconstructPath(current.id);
         }
 
+        const Node* node = graph.getNode(current.id);
+        if (!node) {
+            continue; // todo: handle invalid node state (nullptr)
+        }
 
+        // neighbor_id node expansion through linked list traversal
+        uint32_t edge_index = node->first_edge_index;
+        while (edge_index != 0) {
+            const Edge& edge = graph.edges[edge_index];
+            node_id neighbor_id = edge.target;
+
+            // skip if already in closed list
+            if (closed_list[neighbor_id]) {
+                edge_index = edge.next_edge_index;
+                continue;
+            }
+
+            int32_t tentative_g = gScore[current.id] + edge.cost;
+            // new best path found
+            if (tentative_g < gScore[neighbor_id]) {
+                came_from_list[neighbor_id] = current.id;
+                gScore[neighbor_id] = tentative_g;
+                fScore[neighbor_id] = tentative_g + heuristic(neighbor_id, goal_id);
+                open_list.add(neighbor_id, fScore[neighbor_id]);
+            }
+
+            edge_index = edge.next_edge_index;
+        }
     }
 
-    Path placeholder;
-    return placeholder;
+    // return empty path on failure
+    Path empty_path;
+    return empty_path;
 }
 
 Path Astar::reconstructPath(node_id current)
