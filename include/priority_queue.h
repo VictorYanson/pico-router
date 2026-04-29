@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+
 #include "graph.h"
 
 struct QueueNode {
