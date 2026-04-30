@@ -16,7 +16,21 @@ struct Path {
       nodes[length++] = id;
       return true;
     }
-    return false;  // Full buffer
+    return false;  // full buffer
+  }
+
+  // todo: generated code double-check later
+  void reverse() {
+    if (length == 0) return;
+    size_t i = 0;
+    size_t j = length - 1;
+    while (i < j) {
+      node_id temp = nodes[i];
+      nodes[i] = nodes[j];
+      nodes[j] = temp;
+      i++;
+      j--;
+    }
   }
 
   void clear() { length = 0; }

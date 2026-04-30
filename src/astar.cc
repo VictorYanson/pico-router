@@ -1,8 +1,13 @@
 #include "astar.h"
 
+#include <cassert>
+
 Path Astar::calculatePath(const Graph& graph, node_id start_id,
                           node_id goal_id) {
-  // Initialzation
+  // empty path to return on failure
+  Path empty_path;
+
+  // initialzation
   open_list.clear();
   closed_list.reset();
   gScore.fill(INT32_MAX);
@@ -15,12 +20,12 @@ Path Astar::calculatePath(const Graph& graph, node_id start_id,
 
   open_list.add(start_id, fScore[start_id]);
 
-  // Expansion loop
+  // expansion loop
   while (open_list.size > 0) {
     QueueNode current = open_list.pop();
 
     if (current.id == goal_id) {
-      return reconstructPath(current.id);
+      return reconstructPath(current.id, start_id);
     }
 
     const Node* node = graph.getNode(current.id);
@@ -40,7 +45,10 @@ Path Astar::calculatePath(const Graph& graph, node_id start_id,
         continue;
       }
 
+      // avoid int overflow
+      if (gScore[current.id] == INT32_MAX) continue;
       int32_t tentative_g = gScore[current.id] + edge.cost;
+
       // new best path found
       if (tentative_g < gScore[neighbor_id]) {
         came_from_list[neighbor_id] = current.id;
@@ -53,12 +61,23 @@ Path Astar::calculatePath(const Graph& graph, node_id start_id,
     }
   }
 
-  // return empty path on failure
-  Path empty_path;
   return empty_path;
 }
 
-Path Astar::reconstructPath(node_id current) {
-  Path placeholder;
-  return placeholder;
+Path Astar::reconstructPath(node_id current, node_id start) {
+  assert(current < came_from_list.size() &&
+         "reconstructPath called with out of bounds node_id");
+
+  Path reconstructed_path;
+
+  while (current != start) {
+    if (!reconstructed_path.add(current)) {
+      return reconstructed_path;
+    }
+    current = came_from_list[current];
+  }
+  reconstructed_path.add(start);
+  reconstructed_path.reverse();
+
+  return reconstructed_path;
 }

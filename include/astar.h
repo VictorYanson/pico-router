@@ -23,5 +23,5 @@ class Astar {
   std::array<node_id, MAX_NODES> came_from_list;
   PriorityQueue<MAX_NODES> open_list;
   std::bitset<MAX_NODES> closed_list;
-  Path reconstructPath(node_id current);
+  Path reconstructPath(node_id current, node_id start);
 };
