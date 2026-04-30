@@ -15,8 +15,8 @@ Path Astar::calculatePath(const Graph& graph, node_id start_id,
 
   gScore[start_id] = 0;
 
-  uint32_t placeholder_heuristic = 100;
-  fScore[start_id] = placeholder_heuristic;
+  uint32_t start_heuristic = heuristic(start_id, goal_id);
+  fScore[start_id] = start_heuristic;
 
   open_list.add(start_id, fScore[start_id]);
 
@@ -81,3 +81,5 @@ Path Astar::reconstructPath(node_id current, node_id start) {
 
   return reconstructed_path;
 }
+
+uint16_t Astar::heuristic(node_id neighbor_id, node_id goal_id) { return 0; }

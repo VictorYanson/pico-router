@@ -1,8 +1,8 @@
 #pragma once
 
-#include <stdint.h>
-
 #include <array>
+#include <cstddef>
+#include <cstdint>
 
 using graph_id = uint16_t;
 using node_id = uint32_t;

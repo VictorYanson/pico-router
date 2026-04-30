@@ -4,7 +4,4 @@
 
 #include "graph.h"
 
-uint16_t heuristic(node_id neighbor_id, node_id goal_id) {
-  u_int16_t placeholder = 0;
-  return placeholder;
-};
+// uint16_t heuristic(node_id neighbor_id, node_id goal_id) { return 0; };
