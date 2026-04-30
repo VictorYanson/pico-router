@@ -1,5 +1,16 @@
 {
     "name": "Pico Router Dev",
     "image": "pico-router-dev:latest",
-    "runArgs": ["--platform=linux/amd64"]
+    "runArgs": ["--platform=linux/amd64"],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cpptools"
+            ],
+            "settings": {
+                "editor.formatOnSave": true,
+                "C_Cpp.formatting": "clangFormat"
+            }
+        }
+    }    
 }
