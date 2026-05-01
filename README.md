@@ -1,45 +1,71 @@
 # Pico Router
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-**The first low-power open-source offline GPS router for Raspberry Pi Pico 2 intended for disaster relief**
+Low-power, offline routing research for Raspberry Pi Pico 2, with a pathfinding core designed for microcontroller-class memory constraints.
 
-*Reframe:* An embedded, open-source routing engine derived from Valhalla for microcontroller-class devices
+## Status
 
-[Humanitarian OpenStreetMap Community](https://www.hotosm.org/en/)
+This project is in an early **alpha/prototype** stage.
 
-<details>
+What is working today:
+- Fixed-size graph and path data structures for constrained environments
+- A* search core implemented with static-memory-oriented containers
+- CMake build and unit tests in local workflows and CI
 
-<summary><i>Basic specs</i></summary>
+What is still in progress:
+- Broader routing feature completeness
+- Hardware integration and end-to-end embedded runtime behavior
+- Contributor and governance docs (`CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`)
 
-* Runs on Raspberry Pi
-* Uses Dual Arm Cortex-M33 cores in the RP2350 microcontroller
-* Routes through internal graph traversal using a tiny version of [Valhalla Routing engine](https://github.com/valhalla/valhalla)
-* Uses modified version of `Mjolnir` to build simplified graph from OSM data to later load onto a microSD
-* Core peripherals:
-  * MicroSD Breakout
-  * GPS
-  * OLED display
-  * IMU (Bosch BNO055)
-* Other peripherals:
-  * Buttons
-  * LoRa Radio
-  * Fuel Gauge (i.e. "12 minutes of battery left")
-  * Low Power Sleep Battery Solution
+## Why This Project
 
-</details>
+`pico-router` explores whether useful offline routing can run on very low-power hardware for resilience-focused contexts such as disaster response. The long-term direction is inspired by the ecosystem around [Valhalla](https://github.com/valhalla/valhalla), adapted to fit microcontroller constraints.
 
-## To Do
-- [x] Setup basic reproducable dev environment
-- [ ] Implement preliminary A* algorithm
-- [ ] Setup Renode environment
-- [ ] Create initial CI checks
-- [ ] Finalize contribution rules
-#### Milestone 1
-- [ ] Open-source repo
+## Features
 
-## Development
-### Dev container setup
-From project root run the following to build the image:
+### Available now
+- Static-capacity graph model and path container in `include/pathfind/`
+- A* pathfinding implementation in `src/astar.cc`
+- Demo traversal scaffolding in `src/demo_traversal.cc`
+- Unit tests for pathfinding primitives in `tests/`
+
+### Planned
+- More complete heuristic and routing behavior
+- Renode-backed simulation workflows
+- Expanded hardware integration for navigation peripherals
+
+## Architecture At A Glance
+
+The core pathfinding system is designed around deterministic memory usage:
+- Graph representation uses fixed-size arrays and index-linked edges
+- Priority queue and path buffers avoid dynamic allocation
+- Planner state (`gScore`, `fScore`, `came_from`, closed-set) is maintained in bounded containers
+
+This approach keeps the algorithm predictable for MCU environments while enabling incremental improvements to routing quality.
+
+## Hardware Requirements
+
+### Primary target
+- Raspberry Pi Pico 2 (RP2350)
+
+### Expected peripherals (project direction)
+- microSD breakout
+- GPS module
+- OLED display
+- IMU (Bosch BNO055)
+
+### Optional/future peripherals
+- Buttons
+- LoRa radio
+- Fuel gauge
+- Low-power sleep/battery solution
+
+## Quick Start
+
+### Option A: Dev Container (recommended)
+
+Build the dev container image from the repository root:
+
 ```bash
 docker buildx build \
   --platform linux/amd64 \
@@ -49,9 +75,74 @@ docker buildx build \
   .
 ```
 
-## Building C++ binary from source
+Then open the project in the container from your editor command palette using `Dev Containers: Reopen in Container`.
+
+### Option B: Native host build
+
+Minimum requirements:
+- CMake 3.13+
+- C++17-capable compiler
+
+Build:
+
 ```bash
-cmake -B build && cmake --build build
+cmake -S . -B build
+cmake --build build
 ```
 
-Then start the dev container in VS code by pressing <kbd>⌘</kbd>/<kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>P</kbd> and selecting the option `Dev Containers: Reopen in Container`
+## Build And Run
+
+Build the project binary:
+
+```bash
+cmake -S . -B build
+cmake --build build
+```
+
+Run the executable:
+
+```bash
+./build/pico_router
+```
+
+## Testing (CI Parity)
+
+Enable and run tests with the same pattern used in CI:
+
+```bash
+cmake -S . -B build -DBUILD_TESTING=ON
+cmake --build build --parallel
+ctest --test-dir build --output-on-failure
+```
+
+## Repository Layout
+
+```text
+.
+|-- include/pathfind/      # Graph, path, queue, A* interfaces
+|-- src/                   # A* implementation and demo traversal
+|-- tests/                 # GoogleTest-based unit tests
+|-- .devcontainer/         # Reproducible dev environment
+|-- .github/workflows/     # CI pipeline
+|-- CMakeLists.txt         # Root build configuration
+`-- LICENSE
+```
+
+## Roadmap
+
+- [x] Reproducible development environment
+- [ ] Harden preliminary A* implementation
+- [ ] Expand Renode simulation workflow
+- [x] Initial CI checks
+- [ ] Finalize contribution rules and governance docs
+
+## Contributing
+
+Contributions are welcome. Until a dedicated `CONTRIBUTING.md` is added, please:
+- Open an issue describing the problem or proposal first
+- Keep pull requests focused and small
+- Ensure local tests pass before submitting
+
+## License
+
+This project is licensed under the GNU General Public License v3.0. See `LICENSE` for details.
