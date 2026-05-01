@@ -4,6 +4,8 @@
 
 #include "graph.h"
 
+namespace pathfind {
+
 struct QueueNode {
   node_id id;
   int32_t f_score;
@@ -43,3 +45,5 @@ struct PriorityQueue {
 
   void clear() { size = 0; }
 };
+
+}  // namespace pathfind

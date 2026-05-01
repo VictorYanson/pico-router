@@ -1,6 +1,8 @@
-#include "astar.h"
+#include "pathfind/astar.h"
 
 #include <cassert>
+
+using namespace pathfind;
 
 Path Astar::calculatePath(const Graph& graph, node_id start_id,
                           node_id goal_id) {

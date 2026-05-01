@@ -2,6 +2,8 @@
 
 #include "graph.h"
 
+namespace pathfind {
+
 Graph createDemoGraph() {
   Graph g;
   g.id = 1;
@@ -28,3 +30,5 @@ Graph createDemoGraph() {
 
   return g;
 }
+
+}  // namespace pathfind

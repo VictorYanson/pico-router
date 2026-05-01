@@ -4,6 +4,8 @@
 #include <cstddef>
 #include <cstdint>
 
+namespace pathfind {
+
 using graph_id = uint16_t;
 using node_id = uint32_t;
 
@@ -32,3 +34,5 @@ struct Graph {
     return nullptr;
   }
 };
+
+}  // namespace pathfind

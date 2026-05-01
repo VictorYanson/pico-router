@@ -1,8 +1,10 @@
-#include "demo_traversal.h"
+#include "pathfind/demo_traversal.h"
 
 #include <cstdio>
 
-#include "astar.h"
+#include "pathfind/astar.h"
+
+using namespace pathfind;
 
 int main(int argc, char** argv) {
   const Graph test_graph = createDemoGraph();

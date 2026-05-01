@@ -6,6 +6,8 @@
 
 #include "graph.h"
 
+namespace pathfind {
+
 struct Path {
   static constexpr size_t MAX_PATH_LENGTH = 64;
   std::array<node_id, MAX_PATH_LENGTH> nodes;
@@ -35,3 +37,5 @@ struct Path {
 
   void clear() { length = 0; }
 };
+
+}  // namespace pathfind

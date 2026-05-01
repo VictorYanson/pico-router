@@ -12,6 +12,8 @@
  * Pseudo-code: https://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode
  */
 
+namespace pathfind {
+
 class Astar {
  public:
   Path calculatePath(const Graph& graph, node_id start, node_id goal);
@@ -27,3 +29,5 @@ class Astar {
   Path reconstructPath(node_id current, node_id start);
   uint16_t heuristic(node_id neighbor_id, node_id goal_id);
 };
+
+}  // namespace pathfind
