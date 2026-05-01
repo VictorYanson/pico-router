@@ -8,8 +8,8 @@
 #include "priority_queue.h"
 
 /**
- * Basic implementation of A* algorithm
- * Pseudo-code: https://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode
+ * Implementation of A* algorithm
+ * Pseudocode: https://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode
  */
 
 namespace pathfind {

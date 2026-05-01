@@ -20,7 +20,9 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Run Build
+      - name: Build and Run Tests
         run: |
           docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace dev-image:latest \
-          bash -c "cmake -B build && cmake --build build"
+          bash -c "cmake -S . -B build -DBUILD_TESTING=ON && \
+                  cmake --build build --parallel $(nproc) && \
+                  ctest --test-dir build --output-on-failure"
