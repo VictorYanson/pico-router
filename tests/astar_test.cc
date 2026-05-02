@@ -1,13 +1,14 @@
+#include "pathfind/astar.h"
+
 #include <gtest/gtest.h>
 
-#include "pathfind/astar.h"
-#include "pathfind/demo_traversal.h"
+#include "fixtures/mock_graph.cc"
 
 namespace pathfind {
 namespace {
 
-TEST(AstarOutline, FindsPathInDemoGraph) {
-  Graph graph = createDemoGraph();
+TEST(AstarOutline, FindsPathInMockGraph) {
+  Graph graph = createMockGraph(MockGraphType::TRIANGLE);
   Astar planner;
 
   Path path = planner.calculatePath(graph, 0, 1);
@@ -18,24 +19,13 @@ TEST(AstarOutline, FindsPathInDemoGraph) {
 }
 
 TEST(AstarOutline, ReturnsEmptyPathForUnreachableGoal) {
-  Graph graph = createDemoGraph();
+  Graph graph = createMockGraph(MockGraphType::DISCONNECTED);
   Astar planner;
 
-  // Node 999 has no incoming edges in the demo graph setup.
+  // Node 999 has no incoming edges in the Mock graph setup.
   Path path = planner.calculatePath(graph, 0, 999);
 
   EXPECT_EQ(path.length, 0U);
-}
-
-TEST(AstarOutline, DISABLED_HandlesStartEqualsGoal) {
-  // Outline-only placeholder:
-  // verify whether start==goal returns [start] or empty path,
-  // then lock the expected behavior with assertions.
-}
-
-TEST(AstarOutline, DISABLED_RejectsOutOfBoundsNodeIdsGracefully) {
-  // Outline-only placeholder:
-  // add input validation in Astar and assert no crash / empty path.
 }
 
 }  // namespace

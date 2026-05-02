@@ -24,8 +24,8 @@ struct Node {
 
 struct Graph {
   graph_id id;
-  std::array<Node, MAX_NODES> nodes;
-  std::array<Edge, MAX_EDGES> edges;  // 0 == terminator sentinel value
+  std::array<Node, MAX_NODES> nodes{};
+  std::array<Edge, MAX_EDGES> edges{};  // 0 index == terminator sentinel value
 
   const Node* getNode(node_id id) const {
     if (id < nodes.size()) {

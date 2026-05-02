@@ -1,6 +1,6 @@
-#include <gtest/gtest.h>
-
 #include "pathfind/path.h"
+
+#include <gtest/gtest.h>
 
 namespace pathfind {
 namespace {
@@ -25,16 +25,6 @@ TEST(PathOutline, ReverseReordersNodes) {
   EXPECT_EQ(path.nodes[0], 3U);
   EXPECT_EQ(path.nodes[1], 2U);
   EXPECT_EQ(path.nodes[2], 1U);
-}
-
-TEST(PathOutline, DISABLED_AddReturnsFalseWhenBufferIsFull) {
-  // Outline-only placeholder:
-  // fill Path to MAX_PATH_LENGTH and verify final add() returns false.
-}
-
-TEST(PathOutline, DISABLED_ClearResetsLengthWithoutMutatingBuffer) {
-  // Outline-only placeholder:
-  // verify clear() only changes length semantics.
 }
 
 }  // namespace
