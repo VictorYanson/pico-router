@@ -4,9 +4,9 @@
 ![status-Pre-alpha](https://img.shields.io/badge/status-pre--alpha-blue)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Pico-Router/Pico-Router/build.yml)
 
-Pico Router is an embedded routing engine library implemented in C++. It offers offline routing with configurable memory usage mainly aimed at Raspbarry Pi Pico family targets.
+Pico Router is an embedded routing engine library implemented in C++. It offers offline routing with configurable memory usage mainly aimed at Raspberry Pi Pico family targets.
 
-Checkout the full documentation [here](https://pico-router-docs.vercel.app/getting-started).
+Check out the full documentation [here](https://pico-router-docs.vercel.app/getting-started).
 
 ## Usage
 
@@ -14,7 +14,7 @@ Checkout the full documentation [here](https://pico-router-docs.vercel.app/getti
 
 For those who either are planning to use, or want to contribute to Pico Router, it is heavily encouraged utilize the pre-configured devcontainer.
 
-#### Prerequistes
+#### Prerequisites
 
 * Docker or similar containerization platform
 * `@devcontainers/cli` npm package installed
@@ -91,7 +91,7 @@ make memory
 
 ## Tests
 
-Pico Router uses Google Tests for unit testing. These test are host-only for now. To run the test suite execute:
+Pico Router uses Google Tests for unit testing. These tests are host-only for now. To run the test suite execute:
 
 ```bash
 make test
