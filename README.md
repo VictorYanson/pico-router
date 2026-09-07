@@ -1,132 +1,105 @@
 # Pico Router
+![GitHub License](https://img.shields.io/github/license/Pico-Router/Pico-Router)
+![GitHub Tag](https://img.shields.io/github/v/tag/Pico-Router/Pico-Router)
+![status-Pre-alpha](https://img.shields.io/badge/status-pre--alpha-blue)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Pico-Router/Pico-Router/build.yml)
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+Pico Router is an embedded routing engine library implemented in C++. It offers offline routing with configurable memory usage mainly aimed at Raspberry Pi Pico family targets.
 
-Pico Router is a low-power, offline routing prototype for the Raspberry Pi Pico 2. The repository contains the firmware target, a fixed-size pathfinding core, a Python tool for packing OpenStreetMap data into a binary graph, and simulation assets for Renode.
+Check out the full documentation [here](https://pico-router-docs.vercel.app/getting-started).
 
-## Current State
+## Usage
 
-This project is still in an early prototype stage.
+### Devcontainer
 
-What exists today:
-- A Pico SDK firmware target named `router`
-- A fixed-size graph model and A* implementation in `include/pathfind/` and `src/pathfind/`
-- A Python OSM conversion tool in `tools/osm_converter/`
-- A Renode script that loads `build/router.elf`
-- GoogleTest-based unit tests under `tests/`
+For those who either are planning to use, or want to contribute to Pico Router, it is heavily encouraged utilize the pre-configured devcontainer.
 
-The current firmware entry point simply initializes and prints `Router initialized` over UART.
+#### Prerequisites
 
-## Repository Layout
+* Docker or similar containerization platform
+* `@devcontainers/cli` npm package installed
+* GNU Make installed
+* At least 10GB of free disk storage
 
-- `src/` firmware source
-- `include/pathfind/` pathfinding data structures and helpers
-- `tests/` unit tests and fixtures
-- `tools/osm_converter/` OSM-to-binary graph converter
-- `renode/` Renode platform and run scripts
-- `data/` sample input and output artifacts
+#### Build container
 
-## Architecture
-
-The routing core is designed around bounded memory usage:
-- `Graph` stores nodes and edges in fixed-size arrays
-- `Path` stores route results in a bounded buffer
-- `Astar` uses static arrays for `gScore`, `fScore`, `came_from`, and the open/closed sets
-- The heuristic is Euclidean distance over integer coordinates
-
-The converter in `tools/osm_converter/` turns OSM PBF data into a raw binary `Graph` blob that can be loaded by the firmware.
-
-## Requirements
-
-### Recommended setup
-- Docker with the dev container image
-
-### Native setup
-- CMake 3.13+
-- A C++17-capable compiler
-- Raspberry Pi Pico SDK available through `PICO_SDK_PATH`
-- `arm-none-eabi` toolchain for Pico builds
-- Python 3 for the OSM converter
-
-## Quick Start
-
-### Dev Container
-
-Build the dev container image from the repository root:
+To build the devcontainer run the following command from the project root:
 
 ```bash
-docker buildx build \
-  --platform linux/amd64 \
-  --load \
-  -t pico-router-dev:latest \
-  -f .devcontainer/Dockerfile \
-  .
+make container
 ```
 
-Then reopen the repository in the container with your editor's Dev Containers workflow.
+### Build Pico firmware
 
-### Native Firmware Build
-
-Set `PICO_SDK_PATH` to your local Pico SDK checkout, then build:
+Once inside the devcontainer you can build the ELF binary for Raspberry Pi Pico (RP2040) target by running:
 
 ```bash
-cmake -S . -B build-pico -DBUILD_PICO=ON
-cmake --build build-pico
+make pico
 ```
 
-The build produces `build/router.elf` and `build/router.uf2`.
-
-## Host Build
-
-The Renode script loads the firmware ELF directly:
+To clean the entire build folder run:
 
 ```bash
-cmake -S . -B build-host
-cmake --build build-host
+make clean
 ```
 
-Run locally:
+**Note:** Graph-related constants can be configured via `config.json` in the root directory.
+
+### Build and run on host platform
+
+To build Pico Router on your host platform run:
 
 ```bash
-./build-host/router
+make host
 ```
 
-That script expects `build/router.elf` to exist first.
-
-## OSM Converter
-
-The converter package lives in `tools/osm_converter/` and is installed as the `osm-convert` command.
-
-Install it locally:
+To execute the program from the main function run:
 
 ```bash
-cd tools/osm_converter
-python3 -m pip install -e .
+make run
 ```
 
-Then run the converter from the repository root or with the default `config.json`:
+### Renode hardware simulation
+
+Pico Router uses Renode for hardware simulations. To compile and execute the firmware in Renode's terminal interface run:
 
 ```bash
-osm-convert
+make renode
 ```
 
-The default config uses:
-- `data/sample_map.osm.pbf` as input
-- `data/sample_graph.bin` as output
-- `max_nodes = 10000`
-- `max_edges = 40000`
+## Benchmarks
 
-See [tools/osm_converter/README.md](tools/osm_converter/README.md) for more details.
+Both regular and historical benchmarks are available. To run the regular benchmarks use:
 
-## Testing
+```bash
+make bench
+```
 
-GoogleTest-based tests live under `tests/` and cover the `Path` container and the A* search behavior.
+If you want to compare against previous graph/algorithm changes run:
 
-At the moment, the top-level firmware build does not add the test directory automatically, so the tests are present in the tree but are not wired into the main build flow yet.
+```bash
+make historic-bench
+```
+
+All benchmark results are recorded in `benchmarks/results`.
+
+To get a snapshot of total memory usage you can print a memory report by running:
+
+```bash
+make memory
+```
+
+## Tests
+
+Pico Router uses Google Tests for unit testing. These tests are host-only for now. To run the test suite execute:
+
+```bash
+make test
+```
 
 ## Contributing
 
-Contributions are welcome. Please review `CONTRIBUTING.md` before opening a pull request.
+Contributions are very welcome! Please review `CONTRIBUTING.md` before opening a pull request.
 
 ## License
 
